@@ -9,8 +9,9 @@ const API_BASE_URL = process.env.API_BASE_URL;
 const API_MENU_URL = process.env.API_MENU_URL;
 let cache = apiCache.middleware;
 router.get('/', cache('2 minutes'), async (req, res, next) => {
+  const offset = req.query.offset || 0;
   try {
-    const apiRes = await needle('get', API_BASE_URL);
+    const apiRes = await needle('get', API_BASE_URL + offset);
     const data = apiRes.body;
     res.status(200).json(data);
   } catch (err) {
